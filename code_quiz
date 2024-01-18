@@ -1,0 +1,80 @@
+from tkinter import *
+
+Questions = ["1. Who developed Python Programming Language?" , "Is Python case sensitive when dealing with identifiers?", "4. Which of the following is the correct extension of the Python file?"]
+Options = [["Wick van Rossum","Rasmus Lerdorf","Guido van Rossum"],["Yes","No","Machine dependent"],[".python",".pl",".py"]]
+Answers = [3, 1, 3]
+
+Score = 0
+Total_No_Questions = 3
+Question_no = 1
+
+def next():
+    global Score,Question_no
+    if val1.get() == 1:
+        selected_option = 1
+    elif val2.get() == 1:
+        selected_option = 2
+    elif val3.get() == 1:
+        selected_option = 3
+    else:
+        selected_option = -1
+    if(Answers[Question_no-1] == selected_option):
+        Score +=1
+    
+    Question_no +=1
+
+    if Question_no > Total_No_Questions:
+        root.pack_forget()
+        score.place(relx=.45, rely=.45)
+        score.config(text = "Score: "+str(Score))
+    
+    else:
+        val1.set(0)
+        val2.set(0)
+        val3.set(0)
+        question.config(text = Questions[Question_no-1])
+        option1.config(text = Options[Question_no-1][0])
+        option2.config(text = Options[Question_no-1][1])
+        option3.config(text = Options[Question_no-1][2])
+
+def check (option):
+    if(option == 1):
+        val2.set(0)
+        val3.set(0)
+    elif(option == 2):
+        val1.set(0)
+        val3.set()
+    else:
+        val2.set(0)
+        val1.set(0)
+
+        
+Win = Tk()
+Win.title("Quiz Game")
+
+root = Frame()
+root.pack()
+Win.geometry("650x300")
+question = Label(root, width=50, font=(30), text=Questions[0])
+question.pack()
+
+val1 = IntVar()
+val2 = IntVar()
+val3 = IntVar()
+
+option1 = Checkbutton(root, variable=val1, text=Options[0][0], font=(15), command=lambda:check(1))
+option1.pack()
+
+option2 = Checkbutton(root, variable=val2, text=Options[0][1], font=(15), command=lambda:check(2))
+option2.pack()
+
+option3 = Checkbutton(root, variable=val3, text=Options[0][2], font=(15), command=lambda:check(3))
+option3.pack()
+
+next_b = Button(root, text="next",bg="light blue",font=(12), command=next)
+next_b.pack()
+
+score = Label(Win)
+score.place_forget()
+
+Win.mainloop()
